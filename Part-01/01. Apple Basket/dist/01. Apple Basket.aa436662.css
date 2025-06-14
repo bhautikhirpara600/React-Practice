@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+}
+
+section {
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1000px;
+  margin: 200px auto 0;
+  display: flex;
+}
+
+.basket {
+  text-align: center;
+}
+
+.basket p {
+  font-size: 20px;
+}
+/*# sourceMappingURL=01. Apple Basket.aa436662.css.map */

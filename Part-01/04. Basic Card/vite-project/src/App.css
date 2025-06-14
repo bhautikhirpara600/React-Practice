@@ -1,0 +1,97 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+    background-color: #07102d;
+    max-width: 350px;
+    margin: 0 auto;
+    margin-top: 200px;
+    border-radius: 12px;
+    padding: 24px;
+    font-weight: 600;
+    background-image: linear-gradient(to top right, rgb(7 16 45), rgb(58 60 84));
+}
+
+.download-text {
+    color: #488aec;
+}
+
+.title {
+    font-size: 26px;
+    line-height: 26px;
+    color: #fff;
+    margin-top: 8px;
+    margin-bottom: 16px;
+}
+
+.text {
+    font-size: 14px;
+    color: #9799a7;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.google-play {
+    background-color: #488aec;
+}
+
+.apple {
+    background-color: #fff;
+}
+
+.btn-box {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+    padding: 8px;
+}
+
+.google-play, .apple {
+    border-radius: 10px;
+}
+
+.img-box {
+    max-width: 25px;
+}
+
+.img-box img {
+    width: 100%;
+}
+
+.google-play .small-text {
+    color: #dbcefd;
+}
+
+.apple .small-text {
+    color: #51576c;
+}
+
+.small-text {
+    font-size: 12px;
+}
+
+.btn-text p {
+    margin: 0;
+}
+
+.google-play .big-text {
+    color: #fff;
+}
+
+.apple .big-text {
+    color: #000;
+}
+
+.big-text {
+    font-weight: 800;
+}
