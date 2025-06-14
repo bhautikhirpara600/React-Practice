@@ -1,0 +1,81 @@
+import { useEffect, useState } from "react"
+import "../Style/CountryDetail.css"
+
+export default function CountryDetail() {
+    const countryName = new URLSearchParams(location.search).get("name")
+    const [countryDetail, setCountryDetail] = useState(null)
+
+    useEffect(() => {
+        fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
+            .then(res => res.json())
+            .then(([data]) => {
+                setCountryDetail({
+                    imgURL: data.flags.svg,
+                    nativeName: Object.values(data.name.nativeName).map(item => item.common).join(", "),
+                    population: data.population,
+                    region: data.region,
+                    subRegion: data.subregion,
+                    capital: data.capital.join(", "),
+                    tld: data.tld.join(", "),
+                    currency: Object.values(data.currencies).map(item => item.name).join(", "),
+                    language: Object.values(data.languages).map(item => item).join(", ")
+                })
+            })
+    }, [])
+
+    return (
+        <>
+            {countryDetail === null ? "Loading..." : <main>
+                <div className="country-details-container">
+                    <span className="back-button" onClick={() => history.back()}>
+                        <i className="fa-solid fa-arrow-left" />
+                        &nbsp; Back
+                    </span>
+                    <div className="country-details">
+                        <img src={countryDetail.imgURL} alt={`${countryName} Flag`} />
+                        <div className="details-text-container">
+                            <h1>{countryName}</h1>
+                            <div className="details-text">
+                                <p>
+                                    <b>Native Name: </b>
+                                    <span className="native-name">{countryDetail.nativeName}</span>
+                                </p>
+                                <p>
+                                    <b>Population: </b>
+                                    <span className="population">{countryDetail.population.toLocaleString("en-IN")}</span>
+                                </p>
+                                <p>
+                                    <b>Region: </b>
+                                    <span className="region">{countryDetail.region}</span>
+                                </p>
+                                <p>
+                                    <b>Sub Region: </b>
+                                    <span className="sub-region">{countryDetail.subRegion}</span>
+                                </p>
+                                <p>
+                                    <b>Capital: </b>
+                                    <span className="capital">{countryDetail.capital}</span>
+                                </p>
+                                <p>
+                                    <b>Top Level Domain: </b>
+                                    <span className="top-level-domain">{countryDetail.tld}</span>
+                                </p>
+                                <p>
+                                    <b>Currencies: </b>
+                                    <span className="currencies">{countryDetail.currency}</span>
+                                </p>
+                                <p>
+                                    <b>Languages: </b>
+                                    <span className="languages">{countryDetail.language}</span>
+                                </p>
+                            </div>
+                            <div className="border-countries">
+                                <b>Border Countries: </b>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>}
+        </>
+    )
+}
