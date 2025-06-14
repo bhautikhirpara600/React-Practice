@@ -1,11 +1,11 @@
 import CountryCard from "./CountryCard";
 import countryData from "./countriesData"
 
-function CountryList() {
+function CountryList({ query }) {
     return (
         <div className="countries-container">
             {
-                countryData.map((country) => <CountryCard 
+                countryData.filter((country) => country.name.common.toLocaleLowerCase().includes(query.toLocaleLowerCase())).map((country) => <CountryCard 
                     key={country.name.common}
                     countryName={country.name.common}
                     population={country.population.toLocaleString("en-IN")}
