@@ -4,11 +4,13 @@ import { RouterProvider, createBrowserRouter } from "react-router"
 import App from './App.jsx'
 import Layout from './Components/Layout.jsx'
 import CountryDetail from './Components/CountryDetail.jsx'
+import Error from './Components/Error.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <Error />,
     children: [
       {
         path: "",
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
         element: <h1>Contact</h1>
       },
       {
-        path: "country",
+        path: ":country",
         element: <CountryDetail />
       }
     ]
