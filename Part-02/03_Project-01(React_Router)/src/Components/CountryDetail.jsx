@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import "../Style/CountryDetail.css"
 import { useParams } from "react-router"
 import { Link } from "react-router"
+import CountryDetailShimmer from "./CountryDetailShimmer"
 
 export default function CountryDetail() {
     // const countryName = new URLSearchParams(location.search).get("name")
@@ -34,7 +35,7 @@ export default function CountryDetail() {
                     borders: []
                 })
 
-                if(!data.borders) {
+                if (!data.borders) {
                     data.borders = []
                 }
 
@@ -42,7 +43,7 @@ export default function CountryDetail() {
                     return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
                         .then(res => res.json())
                         .then(([country]) => country.name.common)
-                })).then(borderName => setCountryDetail(prevState => ({...prevState, borders: borderName})))
+                })).then(borderName => setCountryDetail(prevState => ({ ...prevState, borders: borderName })))
 
             }).catch(err => {
                 console.log("Data fetch failed: ", err)
@@ -54,8 +55,12 @@ export default function CountryDetail() {
         return <h1>Country Not Found</h1>
     }
 
+    if(!countryDetail) {
+        return <CountryDetailShimmer />
+    }
+
     return (
-        countryDetail === null ? "Loading..." : <main>
+        <main>
             <div className="country-details-container">
                 <span className="back-button" onClick={() => history.back()}>
                     <i className="fa-solid fa-arrow-left" />

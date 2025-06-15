@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CountryCard from "./CountryCard";
+import CountryListShimmer from "./CountryListShimmer";
 
 function CountryList({ query }) {
     const [countryData, setCountryData] = useState([])
@@ -22,6 +23,10 @@ function CountryList({ query }) {
 
     if(errorOk) {
         return <h1>Something error occurred in fetch API</h1>
+    }
+
+    if(!countryData) {
+        return <CountryListShimmer />
     }
 
     return (
