@@ -1,7 +1,6 @@
-import { useState } from "react"
 import Header from "./Components/Header"
 import { Outlet } from "react-router"
-import { ThemeContext, ThemeProvider } from "./Contexts/themeContext"
+import { ThemeProvider } from "./Contexts/themeContext"
 
 export default function App() {
     

@@ -1,14 +1,14 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import '../Style/App.css'
 import CountryList from './CountryList'
 import SearchBar from './SearchBar'
 import SelectMenu from './SelectMenu'
-import { ThemeContext } from '../Contexts/themeContext'
+import { useTheme } from '../Hooks/useTheme'
 
 export default function Home() {
     const [query, setQuery] = useState("")
 
-    const [isDark] = useContext(ThemeContext) 
+    const [isDark] = useTheme() 
 
     return (
         <>

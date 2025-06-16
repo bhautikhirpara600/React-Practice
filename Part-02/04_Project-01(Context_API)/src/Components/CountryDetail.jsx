@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react"
 import "../Style/CountryDetail.css"
-import { useLocation, useOutletContext, useParams } from "react-router"
-import { Link } from "react-router"
+import { Link, useLocation, useParams } from "react-router"
+import { useEffect, useState } from "react"
 import CountryDetailShimmer from "./CountryDetailShimmer"
-import { ThemeContext } from "../Contexts/themeContext"
+import { useTheme } from "../Hooks/useTheme"
 
 export default function CountryDetail() {
     // const countryName = new URLSearchParams(location.search).get("name")
@@ -12,7 +11,7 @@ export default function CountryDetail() {
     const countryName = params.country
 
     const { state } = useLocation()
-    const [isDark] = useContext(ThemeContext)
+    const [isDark] = useTheme()
 
     const [countryDetail, setCountryDetail] = useState(null)
     const [notFound, setNotFound] = useState(false)
