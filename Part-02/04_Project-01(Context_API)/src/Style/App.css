@@ -3,7 +3,7 @@
 }
 
 body {
-    --background-color: white;
+    --background-color: transparent;
     --text-color: black;
     --elements-color: white;
     margin: 0;

@@ -1,7 +1,9 @@
+import { useContext } from "react"
 import { Link } from "react-router"
+import { ThemeContext } from "../Contexts/themeContext"
 
-function Header({theme}) {
-    const [isDark, setIsDark] = theme
+function Header() {
+    const [isDark, setIsDark] = useContext(ThemeContext)
 
     const themeChange = () => {
         setIsDark(!isDark)
