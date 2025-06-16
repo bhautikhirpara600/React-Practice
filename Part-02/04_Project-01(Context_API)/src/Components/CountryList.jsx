@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import CountryCard from "./CountryCard";
 import CountryListShimmer from "./CountryListShimmer";
+import { useSearchQuery } from "../Hooks/useSearchQuery";
 
-function CountryList({ query }) {
+function CountryList() {
     const [countryData, setCountryData] = useState([])
     const [errorOk, setErrorOk] = useState(false)
+
+    const [query] = useSearchQuery()
 
     useEffect(() => {
         fetch("https://restcountries.com/v3.1/independent?status=true")

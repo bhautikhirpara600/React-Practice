@@ -1,13 +1,16 @@
 import Header from "./Components/Header"
 import { Outlet } from "react-router"
 import { ThemeProvider } from "./Contexts/themeContext"
+import { SearchQueryProvider } from "./Contexts/SearchQueryContext"
 
 export default function App() {
-    
+
     return (
-        <ThemeProvider>
-            <Header />
-            <Outlet />
-        </ThemeProvider>
+        <SearchQueryProvider>
+            <ThemeProvider>
+                <Header />
+                <Outlet />
+            </ThemeProvider>
+        </SearchQueryProvider>
     )
 }
