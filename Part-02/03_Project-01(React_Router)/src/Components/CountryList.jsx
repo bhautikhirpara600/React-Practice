@@ -22,6 +22,9 @@ function CountryList({ query }) {
     }, [])
 
     if(errorOk) {
+        // jyare fetch("Khoti link") karo tyare error aave chhe te router ma je errorElement aapyo chhe te aavashe.
+        // pan tene vadhu clear karava mate manually error create kari shakay jyare res.status = 404 ke 500 aave te catch ma aavatu nathi
+        // etle line no. 12 to 15 ma manually error create karel chhe...
         return <h1>Something error occurred in fetch API</h1>
     }
 
@@ -39,6 +42,7 @@ function CountryList({ query }) {
                     imgURL={country.flags.svg}
                     region={country.region}
                     capital={country.capital?.[0]}
+                    data={country}
                 />)
             }
         </div>

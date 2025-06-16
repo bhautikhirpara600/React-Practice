@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import "../Style/CountryDetail.css"
-import { useParams } from "react-router"
+import { useLocation, useParams } from "react-router"
 import { Link } from "react-router"
 import CountryDetailShimmer from "./CountryDetailShimmer"
 
@@ -10,10 +10,45 @@ export default function CountryDetail() {
     const params = useParams()
     const countryName = params.country
 
+    const { state } = useLocation()
+
     const [countryDetail, setCountryDetail] = useState(null)
     const [notFound, setNotFound] = useState(false)
 
+    function updateData(data) {
+        setCountryDetail({
+            imgURL: data.flags.svg,
+            nativeName: Object.values(data.name.nativeName).map(item => item.common).join(", "),
+            population: data.population,
+            region: data.region,
+            subRegion: data.subregion,
+            capital: data.capital.join(", "),
+            tld: data.tld.join(", "),
+            currency: Object.values(data.currencies).map(item => item.name).join(", "),
+            language: Object.values(data.languages).map(item => item).join(", "),
+            borders: []
+        })
+
+        if (!data.borders) {
+            // Promise.all ne promise ni Array joi pan jyare je country ma border j nathi tyare te Array ni 
+            // jagya e undefined aave chhe etle te error aape chhe.
+            // etle tene manually ek empty array aapi didhi....
+            data.borders = []
+        }
+
+        Promise.all(data.borders.map((border) => {
+            return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+                .then(res => res.json())
+                .then(([country]) => country.name.common)
+        })).then(borderName => setCountryDetail(prevState => ({ ...prevState, borders: borderName })))
+    }
+
     useEffect(() => {
+        if(state) {
+            updateData(state)
+            return
+        }
+
         fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
             .then(res => {
                 if (res.ok) {
@@ -22,29 +57,7 @@ export default function CountryDetail() {
                 throw new Error(`HTTP error status ${res.status}`)
             })
             .then(([data]) => {
-                setCountryDetail({
-                    imgURL: data.flags.svg,
-                    nativeName: Object.values(data.name.nativeName).map(item => item.common).join(", "),
-                    population: data.population,
-                    region: data.region,
-                    subRegion: data.subregion,
-                    capital: data.capital.join(", "),
-                    tld: data.tld.join(", "),
-                    currency: Object.values(data.currencies).map(item => item.name).join(", "),
-                    language: Object.values(data.languages).map(item => item).join(", "),
-                    borders: []
-                })
-
-                if (!data.borders) {
-                    data.borders = []
-                }
-
-                Promise.all(data.borders.map((border) => {
-                    return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
-                        .then(res => res.json())
-                        .then(([country]) => country.name.common)
-                })).then(borderName => setCountryDetail(prevState => ({ ...prevState, borders: borderName })))
-
+                updateData(data)
             }).catch(err => {
                 console.log("Data fetch failed: ", err)
                 setNotFound(true)
@@ -52,10 +65,14 @@ export default function CountryDetail() {
     }, [countryName])
 
     if (notFound) {
+        // CountryList.jsx ma line no. 25 to 27 ma je problem chhe te j...
         return <h1>Country Not Found</h1>
     }
 
-    if(!countryDetail) {
+    if (!countryDetail) {
+        // Jo countryDetail ma empty object pass karu to te truthy value chhe etle first time component render thay tyare
+        // te line number 86 par undefined.toLocaleString("en-IN") malashe ane error aapashe.
+        // Pan jo null pass karish to falsy value malashe ane aa shimmer effect aavi jashe...
         return <CountryDetailShimmer />
     }
 
