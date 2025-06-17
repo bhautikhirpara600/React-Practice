@@ -36,9 +36,10 @@ function CountryList() {
     }
 
     return (
+        <>
         <div className="countries-container">
             {
-                countryData.filter((country) => country.name.common.toLocaleLowerCase().includes(query.toLocaleLowerCase())).map((country) => <CountryCard 
+                countryData.filter((country) => country.name.common.toLocaleLowerCase().includes(query.toLocaleLowerCase()) || country.region.toLocaleLowerCase().includes(query.toLocaleLowerCase())).map((country) => <CountryCard 
                     key={country.name.common}
                     countryName={country.name.common}
                     population={country.population.toLocaleString("en-IN")}
@@ -49,6 +50,7 @@ function CountryList() {
                 />)
             }
         </div>
+        </>
     )
 }
 
