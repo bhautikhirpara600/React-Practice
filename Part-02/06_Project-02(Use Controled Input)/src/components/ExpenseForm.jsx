@@ -18,7 +18,10 @@ export default function ExpenseForm({ setExpenses }) {
             {pattern: /^[A-Z]/, errorMsg: "The first letter should be uppercase."}
         ],
         category: [{required: true, errorMsg: "Please select a category."}],
-        amount: [{required: true, errorMsg: "Please enter an amount."}]
+        amount: [
+            {required: true, errorMsg: "Please enter an amount."},
+            {pattern: /^[0-9]+$/, errorMsg: "Please enter a valid amount."}
+        ]
     }
 
     const validate = (formData) => {
