@@ -2,25 +2,19 @@ import { useState } from "react"
 import Input from "./Input"
 import Select from "./Select"
 
-export default function ExpenseForm({ setExpenses }) {
-
-    const [expense, setExpense] = useState({
-        title: "",
-        category: "",
-        amount: ""
-    })
+export default function ExpenseForm({ setExpenses, expense, setExpense, rowId, isEditableExpense, setIsEditableExpense }) {
     const [errors, setErrors] = useState({})
 
     const validationRules = {
         title: [
-            {required: true, errorMsg: "Please enter a title."},
-            {minLength: 5, errorMsg: "The title must be at least 5 characters long."},
-            {pattern: /^[A-Z]/, errorMsg: "The first letter should be uppercase."}
+            { required: true, errorMsg: "Please enter a title." },
+            { minLength: 5, errorMsg: "The title must be at least 5 characters long." },
+            { pattern: /^[A-Z]/, errorMsg: "The first letter should be uppercase." }
         ],
-        category: [{required: true, errorMsg: "Please select a category."}],
+        category: [{ required: true, errorMsg: "Please select a category." }],
         amount: [
-            {required: true, errorMsg: "Please enter an amount."},
-            {pattern: /^[0-9]+$/, errorMsg: "Please enter a valid amount."}
+            { required: true, errorMsg: "Please enter an amount." },
+            { pattern: /^[0-9]+$/, errorMsg: "Please enter a valid amount." }
         ]
     }
 
@@ -29,15 +23,15 @@ export default function ExpenseForm({ setExpenses }) {
 
         Object.entries(formData).forEach(([key, value]) => {
             validationRules[key].some((rule) => {
-                if(rule.required && !value) {
+                if (rule.required && !value) {
                     errorsData[key] = rule.errorMsg
                     return true
                 }
-                if(rule.minLength && value.length < 5) {
+                if (rule.minLength && value.length < 5) {
                     errorsData[key] = rule.errorMsg
                     return true
                 }
-                if(rule.pattern && !rule.pattern.test(value)) {
+                if (rule.pattern && !rule.pattern.test(value)) {
                     errorsData[key] = rule.errorMsg
                     return true
                 }
@@ -52,15 +46,27 @@ export default function ExpenseForm({ setExpenses }) {
         e.preventDefault()
 
         const formError = validate(expense)
-        if(Object.keys(formError).length) return
+        if (Object.keys(formError).length) return
 
-        const formExpense = {id: crypto.randomUUID(), ...expense}
+        if (rowId) {
+            const editedExpense = { id: rowId, ...expense }
+            setExpenses((prevState) => prevState.map((expense) => expense.id === editedExpense.id ? editedExpense : expense))
+            setExpense({
+                title: "",
+                category: "",
+                amount: ""
+            })
+            setIsEditableExpense("")
+            return
+        }
+
+        const formExpense = { id: crypto.randomUUID(), ...expense }
         setExpenses((prevState) => ([...prevState, formExpense]))
         setExpense({
-        title: "",
-        category: "",
-        amount: ""
-    })
+            title: "",
+            category: "",
+            amount: ""
+        })
     }
 
     const handleChange = (e) => {
@@ -97,7 +103,7 @@ export default function ExpenseForm({ setExpenses }) {
                 onChange={handleChange}
                 error={errors.amount ? `*${errors.amount}` : ""}
             />
-            <button className="add-btn">Add</button>
+            <button className="add-btn">{isEditableExpense ? "Save" : "Add"}</button>
         </form>
     )
 }
