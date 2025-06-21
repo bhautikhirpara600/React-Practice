@@ -36,15 +36,15 @@ main {
   outline: none;
 }
 
-.amount-column div {
+.amount-column div, .title-column div {
   display: flex;
 }
 
-.amount-column span {
+.amount-column span, .title-column span {
   margin-right: 6px;
 }
 
-.arrow {
+.arrow, .clear {
   transition: transform 0.2s ease-in-out;
   cursor: pointer;
 }
@@ -63,6 +63,14 @@ main {
 
 .down-arrow:active {
   transform: translateY(2px);
+}
+
+.refresh {
+  margin-left: 6px;
+}
+
+.refresh:active {
+  transform: rotate(90deg);
 }
 
 .expense-table th,
