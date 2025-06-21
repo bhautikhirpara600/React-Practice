@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { useFilter } from "../hooks/useFilter"
 import ContextMenu from "./ContextMenu";
+import { useExpense } from "../hooks/useExpense";
+import { useExpenses } from "../hooks/useExpenses";
+import { useRowId } from "../hooks/useRowId";
+import { useIsEditableExpense } from "../hooks/useIsEditableExpense";
 
-export default function ExpenseTable({ expenses, setExpenses, setExpense, rowId, setRowId, setIsEditableExpense }) {
+export default function ExpenseTable() {
+
+    const [_1, setExpense] = useExpense()
+    const [expenses, setExpenses] = useExpenses()
+    const [rowId, setRowId] = useRowId()
+    const [_2, setIsEditableExpense] = useIsEditableExpense()
 
     const [filteredData, setQuery] = useFilter(expenses, (data) => data.category)
+    
     const [menuPosition, setMenuPosition] = useState({})
     const [sortCallback, setSortCallback] = useState(() => () => {})
 

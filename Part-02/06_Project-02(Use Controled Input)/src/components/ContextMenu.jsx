@@ -1,5 +1,15 @@
-export default function ContextMenu({menuPosition, setMenuPosition, expenses, setExpenses, rowId, setExpense, setIsEditableExpense}) {
+import { useExpense } from "../hooks/useExpense"
+import { useExpenses } from "../hooks/useExpenses"
+import { useIsEditableExpense } from "../hooks/useIsEditableExpense"
+import { useRowId } from "../hooks/useRowId"
+
+export default function ContextMenu({menuPosition, setMenuPosition}) {
     if(!menuPosition.left || !menuPosition.top) return
+
+    const [rowId] = useRowId()
+    const [expenses, setExpenses] = useExpenses()
+    const [_1, setExpense] = useExpense()
+    const [_2, setIsEditableExpense] = useIsEditableExpense()
 
     return (
         <div className="context-menu" style={{...menuPosition}}>

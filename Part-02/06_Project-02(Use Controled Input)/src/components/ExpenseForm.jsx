@@ -1,14 +1,23 @@
 import { useState } from "react"
 import Input from "./Input"
 import Select from "./Select"
+import { useExpense } from "../hooks/useExpense"
+import { useExpenses } from "../hooks/useExpenses"
+import { useRowId } from "../hooks/useRowId"
+import { useIsEditableExpense } from "../hooks/useIsEditableExpense"
 
-export default function ExpenseForm({ setExpenses, expense, setExpense, rowId, isEditableExpense, setIsEditableExpense }) {
+export default function ExpenseForm() {
     const [errors, setErrors] = useState({})
+    
+    const [expense, setExpense] = useExpense()
+    const [_, setExpenses] = useExpenses()
+    const [rowId] = useRowId()
+    const [isEditableExpense, setIsEditableExpense] = useIsEditableExpense()
 
     const validationRules = {
         title: [
             { required: true, errorMsg: "Please enter a title." },
-            { minLength: 5, errorMsg: "The title must be at least 5 characters long." },
+            { minLength: 2, errorMsg: "The title must be at least 2 characters long." },
             { pattern: /^[A-Z]/, errorMsg: "The first letter should be uppercase." }
         ],
         category: [{ required: true, errorMsg: "Please select a category." }],
@@ -27,7 +36,7 @@ export default function ExpenseForm({ setExpenses, expense, setExpense, rowId, i
                     errorsData[key] = rule.errorMsg
                     return true
                 }
-                if (rule.minLength && value.length < 5) {
+                if (rule.minLength && value.length < rule.minLength) {
                     errorsData[key] = rule.errorMsg
                     return true
                 }
