@@ -62,7 +62,6 @@ export default function ExpenseForm({ setExpenses, expense, setExpense, rowId, i
 
         const formExpense = { id: crypto.randomUUID(), ...expense }
         setExpenses((prevState) => ([...prevState, formExpense]))
-        localStorage.setItem("myExpenses", JSON.stringify(formExpense))
         setExpense({
             title: "",
             category: "",

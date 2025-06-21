@@ -3,6 +3,7 @@ import './App.css'
 import ExpenseForm from './components/ExpenseForm'
 import ExpenseTable from './components/ExpenseTable'
 import expenseData from './expenseData'
+import { useLocalStorage } from './hooks/useLocalStorage'
 
 function App() {
 
@@ -12,10 +13,8 @@ function App() {
     amount: ""
   })
   const [rowId, setRowId] = useState("")
-  const [expenses, setExpenses] = useState(JSON.parse(localStorage.getItem("myExpenses")) || expenseData)
+  const [expenses, setExpenses] = useLocalStorage("expenses", expenseData)
   const [isEditableExpense, setIsEditableExpense] = useState("")
-
-  localStorage.setItem("myExpenses", JSON.stringify(expenses))
 
   return (
     <>
