@@ -1,11 +1,11 @@
-import { usePopup } from '../hooks/usePopup'
+import { useState } from 'react'
 import Modal from './Modal'
 import viteLogo from '/vite.svg'
 import { NavLink } from "react-router"
 
 export default function Header() {
 
-    const [_, setDisplayPopup] = usePopup()
+    const [displayPopup, setDisplayPopup] = useState(false)
 
     return (
         <header className='flex justify-between items-center px-4 md:px-6 py-4 shadow-md'>
@@ -32,6 +32,8 @@ export default function Header() {
                     </button>
 
                     <Modal
+                        displayPopup={displayPopup}
+                        setDisplayPopup={setDisplayPopup}
                         header={<div className="text-xl font-bold">Sign In</div>}
                         footer={
                             <div className="flex justify-end gap-4">

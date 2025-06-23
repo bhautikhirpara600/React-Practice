@@ -11,3 +11,5 @@ export function DisplayPopupProvider({children}) {
         </DisplayPopup.Provider>
     )
 }
+
+// The context API is not necessary in this case.

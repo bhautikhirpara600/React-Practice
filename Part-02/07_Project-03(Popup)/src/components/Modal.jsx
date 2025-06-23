@@ -1,9 +1,6 @@
-import { usePopup } from "../hooks/usePopup"
 import { createPortal } from "react-dom"
 
-export default function Modal({ header, footer, children }) {
-
-    const [displayPopup, setDisplayPopup] = usePopup()
+export default function Modal({ header, footer, children, displayPopup, setDisplayPopup }) {
 
     return (
         createPortal(

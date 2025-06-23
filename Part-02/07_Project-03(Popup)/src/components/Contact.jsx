@@ -1,9 +1,9 @@
-import { usePopup } from "../hooks/usePopup";
+import { useState } from "react";
 import Modal from "./Modal";
 
 export default function Contact() {
 
-    const [displayPopup, setDisplayPopup] = usePopup()
+    const [displayPopup, setDisplayPopup] = useState(false)
 
     return (
         <>
@@ -12,6 +12,8 @@ export default function Contact() {
                 <button onClick={() => setDisplayPopup(true)} className='bg-cyan-500 px-4 py-2 text-white rounded-sm font-semibold cursor-pointer'>Show</button>
             </div>
             <Modal
+                displayPopup={displayPopup}
+                setDisplayPopup={setDisplayPopup}
                 header={<div className="font-bold text-2xl">Header</div>}
                 footer={
                     <div className="flex justify-end">
