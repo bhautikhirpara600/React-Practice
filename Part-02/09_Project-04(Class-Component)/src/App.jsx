@@ -1,8 +1,10 @@
+import Counters from "./components/Counters"
+
 function App() {
 
   return (
     <>
-      <h1 className="bg-orange-300">Hello React</h1>
+      <Counters title="Class Counter" name1="First Counter" name2="Second Counter" />
     </>
   )
 }
