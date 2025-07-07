@@ -1,11 +1,13 @@
 import './App.css'
+import Home from './components/Home'
+import PostListContextProvider from './store/Store'
 
 function App() {
 
   return (
-    <>
-      <h1 className='text-3xl bg-orange-300'>Hello React</h1>
-    </>
+    <PostListContextProvider>
+      <Home />
+    </PostListContextProvider>
   )
 }
 
