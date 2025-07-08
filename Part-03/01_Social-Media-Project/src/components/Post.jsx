@@ -18,7 +18,7 @@ const Post = ({postData}) => {
             <p className="text-blue-600 space-x-2">
                 {tags.map(tag => <span key={tag}>{`#${tag}`}</span>)}
             </p>
-            <p className="mt-2 text-gray-700">Reactions: {reactions}</p>
+            <p className="mt-2 text-gray-700">Reactions: {typeof reactions === "object" ? reactions.likes : reactions}</p>
         </div>
     )
 }
