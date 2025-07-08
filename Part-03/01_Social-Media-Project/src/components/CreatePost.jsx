@@ -3,7 +3,7 @@ import { PostListContext } from "../store/Store"
 
 const CreatePost = ({setSelectTab}) => {
 
-    const { addPost } = useContext(PostListContext)
+    const { setAddData } = useContext(PostListContext)
 
     const userIdElement = useRef(null)
     const titleElement = useRef(null)
@@ -19,7 +19,7 @@ const CreatePost = ({setSelectTab}) => {
         const tags = tagsElement.current.value.split(" ")
         const reactions = reactionElement.current.value
 
-        addPost({ userId, title, body, tags, reactions })
+        setAddData({ userId, title, body, tags, reactions })
 
         e.target.reset()
         setSelectTab("Home")
@@ -35,7 +35,7 @@ const CreatePost = ({setSelectTab}) => {
                         type="text" 
                         id="userId" 
                         ref={userIdElement}
-                        placeholder="Enter your User Id" 
+                        placeholder="Please enter your User ID (up to 100)"
                     />
                 </div>
                 <div className="flex flex-col">

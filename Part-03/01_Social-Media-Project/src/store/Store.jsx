@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 
 // let initialState = []
 
@@ -21,7 +21,7 @@ import { createContext, useEffect, useReducer } from "react";
 
 export const PostListContext = createContext({
     postListData: [],
-    addPost: () => { },
+    setAddData: {},
     deletePost: () => { },
     searchPost: () => { }
 })
@@ -43,11 +43,12 @@ const reducer = (currentState, action) => {
 const PostListContextProvider = ({ children }) => {
 
     const [postListData, dispatch] = useReducer(reducer, [])
+    const [addData, setAddData] = useState({})
 
-    const addPost = ({ userId, title, body, tags, reactions }) => {
+    const addPost = (fetchingData) => {
         dispatch({
             type: "post/add",
-            payload: { userId, title, body, tags, reactions }
+            payload: fetchingData
         })
     }
 
@@ -78,8 +79,20 @@ const PostListContextProvider = ({ children }) => {
             .then(data => initPost(data.posts))
     }, [])
 
+    useEffect(() => {
+        if (addData.userId) {
+            fetch('https://dummyjson.com/posts/add', {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(addData)
+            }).then(res => res.json())
+                .then(data => addPost(data))
+        }
+
+    }, [addData])
+
     return (
-        <PostListContext.Provider value={{ postListData, addPost, deletePost, searchPost }}>
+        <PostListContext.Provider value={{ postListData, setAddData, deletePost, searchPost }}>
             {children}
         </PostListContext.Provider>
     )
