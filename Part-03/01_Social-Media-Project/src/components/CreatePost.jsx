@@ -1,9 +1,11 @@
 import { useContext, useRef } from "react"
 import { PostListContext } from "../store/Store"
+import { useNavigate } from "react-router"
 
-const CreatePost = ({setSelectTab}) => {
+const CreatePost = () => {
 
     const { setAddData } = useContext(PostListContext)
+    const navigate = useNavigate()
 
     const userIdElement = useRef(null)
     const titleElement = useRef(null)
@@ -20,9 +22,8 @@ const CreatePost = ({setSelectTab}) => {
         const reactions = reactionElement.current.value
 
         setAddData({ userId, title, body, tags, reactions })
-
         e.target.reset()
-        setSelectTab("Home")
+        navigate("/")
     }
 
     return (
@@ -55,7 +56,7 @@ const CreatePost = ({setSelectTab}) => {
                         type="text" 
                         id="body" 
                         ref={bodyElement}
-                        placeholder="Tell about it..." 
+                        placeholder="Tell us about it..." 
                     />
                 </div>
                 <div className="flex flex-col">
