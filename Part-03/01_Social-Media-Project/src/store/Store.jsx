@@ -22,6 +22,7 @@ import { createContext, useEffect, useReducer, useState } from "react";
 export const PostListContext = createContext({
     postListData: [],
     setAddData: {},
+    loadingData: false,
     deletePost: () => { },
     searchPost: () => { }
 })
@@ -44,6 +45,7 @@ const PostListContextProvider = ({ children }) => {
 
     const [postListData, dispatch] = useReducer(reducer, [])
     const [addData, setAddData] = useState({})
+    const [loadingData, setLoadingData] = useState(false)
 
     const addPost = (fetchingData) => {
         dispatch({
@@ -74,9 +76,13 @@ const PostListContextProvider = ({ children }) => {
     }
 
     useEffect(() => {
+        setLoadingData(true)
         fetch('https://dummyjson.com/posts')
             .then(res => res.json())
-            .then(data => initPost(data.posts))
+            .then(data => {
+                initPost(data.posts)
+                setLoadingData(false)
+            })
     }, [])
 
     useEffect(() => {
@@ -92,7 +98,7 @@ const PostListContextProvider = ({ children }) => {
     }, [addData])
 
     return (
-        <PostListContext.Provider value={{ postListData, setAddData, deletePost, searchPost }}>
+        <PostListContext.Provider value={{ postListData, setAddData, loadingData, deletePost, searchPost }}>
             {children}
         </PostListContext.Provider>
     )
