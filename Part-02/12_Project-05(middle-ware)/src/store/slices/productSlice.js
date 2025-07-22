@@ -10,20 +10,22 @@ const slice = createSlice({
     reducers: {
         productLoading(state) {
             state.isLoading = true
-            return state
         },
-        fetchingError(state) {
-            state.error = 'Something went wrong!!'
+        fetchingError(state, action) {
+            state.error = action.payload || 'Something went wrong!!'
             state.isLoading = false
-            return state
         },
         loadProducts(state, action) {
             state.isLoading = false
             state.list = action.payload
-            return state
         }
     }
 })
+
+
+export const productListSelector = (state) => state.products.list
+export const productLoadingSelector = (state) => state.products.isLoading
+export const productErrorSelector = (state) => state.products.error
 
 export default slice.reducer
 export const { loadProducts, productLoading, fetchingError } = slice.actions

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSelector, createSlice } from "@reduxjs/toolkit"
 
 const findItemIndex = (state, action) => state.list.findIndex(cartItem => cartItem.productId === action.payload.productId)
 
@@ -19,8 +19,8 @@ const slice = createSlice({
             state.isLoading = false
             return state
         },
-        fetchingCartError(state) {
-            state.error = 'Something went wrong!!'
+        fetchingCartError(state, action) {
+            state.error =action.payload || 'Something went wrong!!'
             state.isLoading = false
             return state
         },
@@ -28,8 +28,8 @@ const slice = createSlice({
             const existingItemIndex = findItemIndex(state, action)
             if (existingItemIndex !== -1) {
                 state.list[existingItemIndex].quantity += 1
-            }else {
-                state.list.push({...action.payload , quantity: 1})
+            } else {
+                state.list.push({ ...action.payload, quantity: 1 })
             }
         },
         removeCartProduct(state, action) {
@@ -43,7 +43,7 @@ const slice = createSlice({
         decreaseCartItemQuantity(state, action) {
             const existingItemIndex = findItemIndex(state, action)
             state.list[existingItemIndex].quantity -= 1
-            if(state.list[existingItemIndex].quantity === 0) {
+            if (state.list[existingItemIndex].quantity === 0) {
                 state.list.splice(existingItemIndex, 1)
             }
         }
@@ -51,6 +51,18 @@ const slice = createSlice({
 })
 
 // console.dir(slice);
+const cartListSelector = (state) => state.cart.list
+const productListSelector = (state) => state.products.list
+
+export const cartItemSelector = createSelector([cartListSelector, productListSelector], (cartItem, productItem) => 
+    (cartItem.map(({productId, quantity}) => {
+        const cartDetail = productItem.find((product) => product.id === productId)
+        return {...cartDetail, quantity}
+    }).filter(({title}) => title))
+)
+
+export const cartLoadingSelector = (state) => state.cart.isLoading
+export const cartErrorSelector = (state) => state.cart.error
 
 export default slice.reducer
 
