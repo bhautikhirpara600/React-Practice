@@ -2,14 +2,14 @@ import { Link } from 'react-router'
 import CartIcon from '../assets/cart-icon.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { fetchProductData } from '../store/slices/productSlice'
-import { fetchCartItemData } from '../store/slices/cartSlice'
+import { fetchProduct } from '../store/slices/productSlice'
+import { fetchCartItem } from '../store/slices/cartSlice'
 
 export default function Header() {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(fetchProductData())
-    dispatch(fetchCartItemData())
+    dispatch(fetchProduct())
+    dispatch(fetchCartItem())
   }, [])
   const cartProducts = useSelector(state => state.cart.list)
   return (
