@@ -3,6 +3,7 @@ import cartReducer from "./slices/cartSlice"
 import wishListReducer from "./slices/wishListSlice"
 import { configureStore } from "@reduxjs/toolkit"
 import { logger } from "./middleware/logger"
+import { customMiddleware } from "./middleware/customMiddleware"
 
 
 export const store = configureStore({
@@ -11,5 +12,5 @@ export const store = configureStore({
     cart: cartReducer,
     wishList: wishListReducer
 },
-middleware: (defaultMiddleware) => [...defaultMiddleware()]
+middleware: (defaultMiddleware) => [...defaultMiddleware(), customMiddleware]
 })

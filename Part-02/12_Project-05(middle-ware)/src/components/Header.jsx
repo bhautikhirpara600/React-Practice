@@ -8,24 +8,27 @@ import { cartItemLoading, fetchingCartError, loadCartItems } from '../store/slic
 export default function Header() {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(productLoading())
-    fetch("https://fakestoreapi.com/products")
-      .then(res => res.json())
-      .then(data => {
-        dispatch(loadProducts(data))
-      }).catch(err => {
-        console.log(err);
-        dispatch(fetchingError())
-      })
 
-    dispatch(cartItemLoading())
-    fetch('https://fakestoreapi.com/carts/5')
-      .then(res => res.json())
-      .then(data => dispatch(loadCartItems(data.products)))
-      .catch(err => {
-        console.log(err);
-        dispatch(fetchingCartError())
-      })
+    dispatch({
+      type: 'api/makeCall',
+      payload: {
+        url: 'products',
+        onStart: productLoading.type,
+        onLoad: loadProducts.type,
+        onError: fetchingError.type
+      }
+    })
+
+    dispatch({
+      type: 'api/makeCall',
+      payload: {
+        url: 'carts/5',
+        onStart: cartItemLoading.type,
+        onLoad: loadCartItems.type,
+        onError: fetchingCartError.type
+      }
+    })
+
   }, [])
   const cartProducts = useSelector(state => state.cart.list)
   return (

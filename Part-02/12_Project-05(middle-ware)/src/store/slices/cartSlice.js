@@ -12,17 +12,14 @@ const slice = createSlice({
     reducers: {
         cartItemLoading(state) {
             state.isLoading = true
-            return state
         },
         loadCartItems(state, action) {
-            state.list = action.payload
+            state.list = action.payload.products
             state.isLoading = false
-            return state
         },
         fetchingCartError(state, action) {
-            state.error =action.payload || 'Something went wrong!!'
+            state.error = action.payload || 'Something went wrong!!'
             state.isLoading = false
-            return state
         },
         addCartProduct(state, action) {
             const existingItemIndex = findItemIndex(state, action)
