@@ -28,4 +28,15 @@ export const productLoadingSelector = (state) => state.products.isLoading
 export const productErrorSelector = (state) => state.products.error
 
 export default slice.reducer
-export const { loadProducts, productLoading, fetchingError } = slice.actions
+const { loadProducts, productLoading, fetchingError } = slice.actions
+
+export const fetchProductData = () => (dispatch, getState) => {
+    dispatch(productLoading())
+    fetch('https://fakestoreapi.com/products')
+        .then(res => res.json())
+        .then(data => dispatch(loadProducts(data)))
+        .catch((err) => {
+            console.log(err);
+            dispatch(fetchingError())
+        })
+}

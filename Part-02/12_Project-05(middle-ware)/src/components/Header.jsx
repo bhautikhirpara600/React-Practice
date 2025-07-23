@@ -2,33 +2,14 @@ import { Link } from 'react-router'
 import CartIcon from '../assets/cart-icon.svg'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { fetchingError, loadProducts, productLoading } from '../store/slices/productSlice'
-import { cartItemLoading, fetchingCartError, loadCartItems } from '../store/slices/cartSlice'
+import { fetchProductData } from '../store/slices/productSlice'
+import { fetchCartItemData } from '../store/slices/cartSlice'
 
 export default function Header() {
   const dispatch = useDispatch()
   useEffect(() => {
-
-    dispatch({
-      type: 'api/makeCall',
-      payload: {
-        url: 'products',
-        onStart: productLoading.type,
-        onLoad: loadProducts.type,
-        onError: fetchingError.type
-      }
-    })
-
-    dispatch({
-      type: 'api/makeCall',
-      payload: {
-        url: 'carts/5',
-        onStart: cartItemLoading.type,
-        onLoad: loadCartItems.type,
-        onError: fetchingCartError.type
-      }
-    })
-
+    dispatch(fetchProductData())
+    dispatch(fetchCartItemData())
   }, [])
   const cartProducts = useSelector(state => state.cart.list)
   return (

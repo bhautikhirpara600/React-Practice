@@ -12,5 +12,5 @@ export const store = configureStore({
     cart: cartReducer,
     wishList: wishListReducer
 },
-middleware: (defaultMiddleware) => [...defaultMiddleware(), customMiddleware]
+middleware: (defaultMiddleware) => [...defaultMiddleware()]
 })

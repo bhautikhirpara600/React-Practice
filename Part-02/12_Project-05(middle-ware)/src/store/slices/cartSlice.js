@@ -63,4 +63,17 @@ export const cartErrorSelector = (state) => state.cart.error
 
 export default slice.reducer
 
-export const { cartItemLoading, loadCartItems, fetchingCartError, addCartProduct, removeCartProduct, increaseCartItemQuantity, decreaseCartItemQuantity } = slice.actions
+const { cartItemLoading, loadCartItems, fetchingCartError } = slice.actions
+
+export const fetchCartItemData = () => (dispatch, getState) => {
+    dispatch(cartItemLoading())
+    fetch('https://fakestoreapi.com/carts/5')
+        .then(res => res.json())
+        .then(data => dispatch(loadCartItems(data)))
+        .catch((err) => {
+            console.log(err);
+            dispatch(fetchingCartError())
+        })
+}
+
+export const { addCartProduct, removeCartProduct, increaseCartItemQuantity, decreaseCartItemQuantity } = slice.actions
